@@ -1,0 +1,53 @@
+services:
+
+  db:
+    image: postgres:17
+    container_name: tasks_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tasks
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: task_backend
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+
+
+  frontend:
+    build: ./frontend
+    container_name: task_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+
+
+  docker-build:
+    runs-on: ubuntu-latest
+
+    needs:
+      - backend-test
+      - frontend-build
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: docker compose build
+
+volumes:
+  postgres_data:

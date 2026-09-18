@@ -7,3 +7,5 @@ pydantic-settings
 pyjwt
 pwdlib[argon2]
 email-validator
+# for database migrations
+alembic

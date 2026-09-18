@@ -9,3 +9,6 @@ pwdlib[argon2]
 email-validator
 # for database migrations
 alembic
+# ci cd fix
+pytest
+httpx

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import type { Task } from "../types";
 
 export default function Dashboard() {
-  const { logout } = useAuth();
+ const { logout } = useAuth();
+const navigate = useNavigate();
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [title, setTitle] = useState("");
@@ -92,7 +94,12 @@ export default function Dashboard() {
       <header>
         <h1>Task Manager</h1>
 
-        <button onClick={logout}>
+        <button
+          onClick={() => {
+            logout();
+            navigate("/login");
+          }}
+        >
           Logout
         </button>
       </header>

@@ -6,9 +6,21 @@ from app.database import Base, engine
 from .routes.auth import router as auth_router
 #  tasks registration
 from .routes.tasks import router as task_router
-
+#  cors configuration with frontend
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Task Manager API")
+
+# cors configure
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup():
